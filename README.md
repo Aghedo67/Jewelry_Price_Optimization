@@ -1,69 +1,68 @@
-# 💎 Gem · Price Intelligence
-### Jewelry Market Optimization Engine — Streamlit App
+# 💎 Gem · AI Price Intelligence
+### Streamlit app — powered by Claude AI
 
 ---
 
-## Quick Start
+## Local setup (2 steps)
 
-### 1. Install dependencies
 ```bash
 pip install -r requirements.txt
-```
-
-### 2. Run the app
-```bash
 streamlit run app.py
 ```
 
-The app opens at **http://localhost:8501**
+Open http://localhost:8501, enter your Anthropic API key in the sidebar, and start predicting.
 
 ---
 
-## Usage
+## Deploy to Streamlit Community Cloud (free)
 
-1. **Upload** your `jewelry_orders.csv` using the sidebar uploader
-2. **Overview tab** — instant EDA: price distributions, category breakdowns, time series, null map
-3. **Analysis tab** — deep-dive charts: metal × gem heatmap, color/gender breakdowns, correlation matrix
-4. **Model Training tab** — click ▶ TRAIN MODELS to run the full pipeline:
-   - Feature engineering → mutual-info selection → preprocessing
-   - Ridge · RandomForest · XGBoost · LightGBM benchmarked
-   - SHAP global importance + business analyst summary table
-5. **Price Predictor tab** — select product attributes and get an optimal price with market comparables
-
----
-
-## Expected CSV Columns
-
-| Column | Type | Notes |
-|--------|------|-------|
-| Order_Datetime | string/datetime | Parsed automatically |
-| Order_ID | int | |
-| Product_ID | int | |
-| SKU_Quality | int | |
-| Category_ID | float | nullable |
-| Category | string | nullable |
-| Brand_ID | float | nullable |
-| Price_USD | float | **Target variable** |
-| User_ID | float | nullable |
-| Target_Gender | string | ~50% nullable — OK |
-| Main_Color | string | nullable |
-| Main_Metal | string | nullable |
-| Main_Gem | string | nullable |
+1. Push this folder to a **GitHub repository**
+2. Go to → https://share.streamlit.io → **New app**
+3. Select your repo, branch `main`, file path `app.py`
+4. Under **Advanced settings → Secrets**, add:
+   ```toml
+   ANTHROPIC_API_KEY = "sk-ant-xxxxxxxxxxxxxxxxxxxx"
+   ```
+5. Click **Deploy** — your app is live in ~60 seconds
 
 ---
 
-## Project Structure
+## Get an Anthropic API key
+
+1. Sign up at https://console.anthropic.com
+2. Go to **API Keys** → **Create Key**
+3. Copy the `sk-ant-…` key
+4. Paste it in the sidebar (local) or Streamlit Secrets (cloud)
+
+---
+
+## Files
 
 ```
-jewelry_app/
-├── app.py              # Main Streamlit application
-├── requirements.txt    # Python dependencies
-└── README.md           # This file
+gem_ai_app/
+├── app.py                   # Full Streamlit application
+├── requirements.txt         # anthropic + streamlit only
+├── .streamlit/
+│   └── secrets.toml         # Optional: pre-fill API key
+└── README.md
 ```
 
 ---
 
-## Design
+## What the app does
 
-Dark luxury aesthetic with Cormorant Garamond serif + DM Mono typefaces.
-Gold accent (#c9a96e) throughout for a premium jewelry brand feel.
+Select 6 jewelry attributes:
+- **Category** (Ring, Necklace, Bracelet…)
+- **Main Metal** (Gold, Platinum, Silver…)
+- **Main Gem** (Diamond, Ruby, None…)
+- **Main Color**
+- **Target Gender**
+- **SKU Quality** (1–5)
+
+Claude returns:
+- ✦ Optimal retail price (USD)
+- ✦ Recommended price range
+- ✦ Confidence score
+- ✦ Market demand rating
+- ✦ 3–4 price driver explanations
+- ✦ Market insight note
